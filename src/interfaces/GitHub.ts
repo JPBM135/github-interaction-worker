@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-
 export interface GitHubUser {
 	login: string;
 	url: string;

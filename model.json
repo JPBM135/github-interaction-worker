@@ -1,24 +1,24 @@
 [
-    {
-        "name": "github",
-        "description": "Query an issue, pullrequest or commit-like from the provided repository",
-        "options": [
-            {
-                "name": "query",
-                "description": "Issue, PR number, commit-like expression or direct link to a GitHub Issue or PR",
-                "type": 3,
-                "required": true
-            },
-            {
-                "name": "repository",
-                "description": "Project repository (default: discord.js)",
-                "type": 3
-            },
-            {
-                "name": "owner",
-                "description": "Repository owner (default: discordjs)",
-                "type": 3
-            }
-        ]
-    }
+	{
+		"name": "github",
+		"description": "Query an issue, pullrequest or commit-like from the provided repository",
+		"options": [
+			{
+				"name": "query",
+				"description": "Issue, PR number, commit-like expression or direct link to a GitHub Issue or PR",
+				"type": 3,
+				"required": true
+			},
+			{
+				"name": "repository",
+				"description": "Project repository (default: discord.js)",
+				"type": 3
+			},
+			{
+				"name": "owner",
+				"description": "Repository owner (default: discordjs)",
+				"type": 3
+			}
+		]
+	}
 ]

@@ -36,23 +36,33 @@ export async function commitInfo(owner: string, repository: string, expression: 
 		const res: GitHubAPIResult = await fetch(GITHUB_BASE_URL, {
 			method: 'POST',
 			headers: {
-				'Authorization': `Bearer ${GITHUB_TOKEN}`, // eslint-disable-line @typescript-eslint/naming-convention
-				'User-Agent': 'CF Worker' // eslint-disable-line @typescript-eslint/naming-convention
+				Authorization: `Bearer ${GITHUB_TOKEN}`,
+				'User-Agent': 'CF Worker',
 			},
-			body: JSON.stringify({ query })
-		}).then(res => res.json());
+			body: JSON.stringify({ query }),
+		}).then((res) => res.json());
 
 		if (!res.data) {
-			return respondError(`GitHub fetching unsuccessful. Arguments: \`owner: ${owner}\`, \`repository: ${repository}\`, \`expression: ${expression}\``);
+			return respondError(
+				`GitHub fetching unsuccessful. Arguments: \`owner: ${owner}\`, \`repository: ${repository}\`, \`expression: ${expression}\``,
+			);
 		}
 
-		if (res.errors?.some(e => e.type === 'NOT_FOUND') || !res.data.repository?.object) {
+		if (res.errors?.some((e) => e.type === 'NOT_FOUND') || !res.data.repository?.object) {
 			return respondError(`Could not find commit \`${expression}\` on the repository \`${owner}/${repository}\`.`);
 		}
 
 		const commit = res.data.repository.object;
-		return respond(`${GITHUB_EMOJI_COMMIT} [${commit.abbreviatedOid} in ${commit.repository.nameWithOwner}](<${commit.commitUrl ?? ''}>) by [${commit.author.user?.login ?? commit.author.name ?? ''}](<${commit.author.user?.url ?? ''}>) ${commit.pushedDate ? `committed <t:${Math.floor(new Date(commit.pushedDate).getTime() / 1000)}:R>` : ''} \n${commit.messageHeadline ?? ''}`);
+		return respond(
+			`${GITHUB_EMOJI_COMMIT} [${commit.abbreviatedOid} in ${commit.repository.nameWithOwner}](<${
+				commit.commitUrl ?? ''
+			}>) by [${commit.author.user?.login ?? commit.author.name ?? ''}](<${commit.author.user?.url ?? ''}>) ${
+				commit.pushedDate ? `committed <t:${Math.floor(new Date(commit.pushedDate).getTime() / 1000)}:R>` : ''
+			} \n${commit.messageHeadline ?? ''}`,
+		);
 	} catch (error) {
-		return respondError(`Something went wrong :( Arguments: \`owner: ${owner}\`, \`repository: ${repository}\`, \`expression: ${expression}\``);
+		return respondError(
+			`Something went wrong :( Arguments: \`owner: ${owner}\`, \`repository: ${repository}\`, \`expression: ${expression}\``,
+		);
 	}
 }

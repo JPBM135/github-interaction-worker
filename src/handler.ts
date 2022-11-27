@@ -18,10 +18,12 @@ async function isValidRequest(request: Request): Promise<boolean> {
 
 export async function handleRequest(request: Request): Promise<Response> {
 	try {
-		if (!await isValidRequest(request)) return new Response('Bad request signature', { status: 401 });
+		if (!(await isValidRequest(request))) return new Response('Bad request signature', { status: 401 });
 
 		const body = await request.clone().json();
-		const { data: { name, options } } = body;
+		const {
+			data: { name, options },
+		} = body;
 
 		if (body.type === 2) {
 			if (options?.length) {
